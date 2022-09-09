@@ -1,0 +1,133 @@
+type Query {
+
+   "Lista de las temporadas de Formula 1. De 1950 a 2022 lo seleccionamos"
+    seasonsList: [Season!]!
+
+    """
+    Obtenemos la información de las carreras seleccionadas por año.
+    Solo existen temporadas desde la 1950 a 2022.
+    """
+
+    racesByYear(year: String!): [Race!]!
+    "Carrera seleccionada por año y número de carrera"
+    raceSelect(year: String!, round: Int!): Race
+
+    """
+    Lista de todos los pilotos de la F1 de la historia.
+    Por un lado podemos obtener todos los pilotos.
+    Por otro lado hacemos uso de la paginación y podemos limitar el número de resultados
+    """
+
+    historyDrivers(pageElements: Int, page: Int): [Driver!]!
+
+    """
+    Obtenemos la información de los pilotos seleccionados por año.
+    Solo existen temporadas desde la 1950 a 2022.
+    """
+    driversYear(year: String!): [Driver!]!
+
+    "Piloto seleccionado por año y número de carrera."
+
+    driversYearAndRound(year: String!, round: Int!): [Driver!]!
+
+    "Obtenemos información del piloto mediante el valor 'id'"
+    driverSelect(id: String!): Driver
+
+    "Clasificación final de los pilotos de una temporada"
+    seasonPilotsRanking(year: String!): [DriverStanding!]!
+
+    "Circuitos historicos"
+    historyCircuits(pageElements: Int, page: Int): [Circuit!]!
+
+    "Circuito seleccionado"
+    circuitSelect(id: String!): Circuit
+
+
+
+}
+"Información de la temporada"
+type Season {
+    "Año de la temporada"
+    year: String!
+    "Información de Wikipedia"
+    url: String!
+    "Información de Wikipedia adaptada a los dispositivos móviles"
+    urlMobile: String!
+}
+"Información de la localización"
+type Location{
+    "Información de la latitud"
+    lat: String!
+    "Información de la longitud"
+    lng: String!
+    "Información de la localidad"
+    locality: String!
+    "Información del país"
+    country: String!
+}
+"Información del circuito"
+type Circuit {
+    "Información del id del circuito"
+    id: String!
+    "Información de Wikipedia"
+    url: String!
+    "Información de Wikipedia adaptada a los dispositivos móviles"
+    urlMobile: String!
+    "Información del nombre"
+    name: String!
+    "Información de la localización"
+    location: Location!
+}
+"Información de la carrera"
+type Race {
+    "Información de la temporada"
+    season: String!
+    "Información del número de carrera"
+    round: String!
+    "Información de la Wikipedia"
+    url: String!
+    "Información de Wikipedia adaptada a los dispositivos móviles"
+    urlMobile: String!
+    "Información del nombre de la carrera"
+    name: String!
+    "Información del nombre del circuito"
+    circuit: Circuit!
+    "Información de la fecha de la carrera"
+    date: String!
+    "Información del tiempo de la carrera"
+    time: String
+}
+"Información del piloto"
+type Driver {
+    "Información del id del piloto"
+    id: String!
+    "Información de la Wikipedia"
+    url: String!
+    "Información de Wikipedia adaptada a los dispositivos móviles"
+    urlMobile: String!
+    "Información del nombre del piloto"
+    name: String!
+    "Información de la fecha de nacimiento del piloto"
+    dateOfBirth: String!
+    "Información de la nacionalidad del piloto"
+    nationality: String!
+    "Información del número permanente del piloto"
+    permanentNumber: String
+    "Información del código del piloto"
+    code: String
+}
+type Constructor {
+    id: String!
+    url: String!
+    urlMobile: String!
+    name: String!
+    nationality: String!
+}
+type DriverStanding {
+    position: String!
+    positionText: String!
+    points: String!
+    wins: String!
+    driver: Driver!
+    constructors: [Constructor!]!
+}
